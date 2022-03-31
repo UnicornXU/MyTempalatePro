@@ -9,12 +9,94 @@ import MyTable from '@/components/MyTable';
 // 请求
 import { getInventoryView } from '@/services/apiUrls';
 // 公共方法
-import { bubbleSort, selectSort, uniqueArr, search } from '@/utils/comhelper';
+import { bubbleSort, selectSort, uniqueArr, search, Expression } from '@/utils/comhelper';
 // react-query
 
 
 import styles from './Welcome.less';
 import '@/reactviewdiff.less';
+
+const data = [{
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16731,
+    "FieldValueCode": "LastPurchasingPrice",
+    "FieldValueName": "最新订单采购价",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 1,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16768,
+    "FieldValueCode": "LastPurchasingPrice",
+    "FieldValueName": "最新订单采购价",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 1,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16732,
+    "FieldValueCode": "LastPrice",
+    "FieldValueName": "最后销单价",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 2,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16769,
+    "FieldValueCode": "LastPrice",
+    "FieldValueName": "最后销单价",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 2,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16733,
+    "FieldValueCode": "DefaultSupplierQuotation",
+    "FieldValueName": "默认供应商报价",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 3,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16770,
+    "FieldValueCode": "DefaultSupplierQuotation",
+    "FieldValueName": "默认供应商报价",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 3,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16734,
+    "FieldValueCode": "DefaultValueSetting",
+    "FieldValueName": "默认设置",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 4,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16771,
+    "FieldValueCode": "DefaultValueSetting",
+    "FieldValueName": "默认设置",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 4,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16735,
+    "FieldValueCode": "DefaultValue",
+    "FieldValueName": "固定值",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 5,
+    "FieldDefaultValueSettingViews": []
+}, {
+    "FieldValueId": 0,
+    "FieldValueSettingId": 16772,
+    "FieldValueCode": "DefaultValue",
+    "FieldValueName": "固定值",
+    "FieldDefaultValue": 0.0000,
+    "Priority": 5,
+    "FieldDefaultValueSettingViews": []
+}];
 
 const Prism = (window as any).Prism
 const oldCode = `import React, { useState } from 'react';
@@ -1080,7 +1162,14 @@ const Welcome: React.FC = () => {
     let arr = uniqueArr([1, 1, 2, 3, 4, 4, 5, 6]);
     // 二分查找
     let searchres = search([1, 2, 3], 3);
+    let object = {};
+    // reduce去重
+    let reduceData = data.reduce((item, next) => {
+        object[next.FieldValueName] ? "" : object[next.FieldValueName] = true && item.push(next);
+        return item;
+    }, [])
 
+    console.log(reduceData, '去重')
 
 
 
@@ -1115,10 +1204,22 @@ const Welcome: React.FC = () => {
         />;
     };
 
+    let text = "Dear customer, so sorry for the inconvenience caused. We always want  to be a perfect seller but some time it is out of our control.\nWe agreed your dispute and Ali has refunded to you,it usually takes 3-20 business days to return to your account. If you don’t receive your refund, please contact Ali customer service for more help. https://service.aliexpress.com/page/home?pageId=17&language=en . \nHope you can forgive us. If you are satisfied with our service please give a 5 star  on overall detail selling rating[Rose]\nIf you need any further help please feel free to contact us. Thank you. Have nice day！[Smile][摸摸]"
+
+    console.log(text.match(/\[[A-Z]*[a-z]*\]/g));
+    let icons = text.match((/\[[A-Z]*[a-z]*\]/g));
+
+    text = text.replace(/\[.+?\]/g, function (a, b) {
+        console.log(a, 'dd')
+        return Expression[a];
+    });
+
+
+
     return (
         <PageContainer>
             <Card>
-                <div dangerouslySetInnerHTML={{ __html: "<p>This is &#x27; a paragraph</p>" }}></div>
+                <div dangerouslySetInnerHTML={{ __html: text }}></div>
                 <MyTable
                     requestApi={getInventoryView}
                     params={{ "language": "zh_cn" }}
