@@ -4,6 +4,7 @@ import { Card, Alert, Typography } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 // React 文本对比
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer';
+import { Ribbon } from '@/components/AntExtend';
 // MyTable
 import MyTable from '@/components/MyTable';
 // 请求
@@ -1204,7 +1205,7 @@ const Welcome: React.FC = () => {
         />;
     };
 
-    let text = "Dear customer, so sorry for the inconvenience caused. We always want  to be a perfect seller but some time it is out of our control.\nWe agreed your dispute and Ali has refunded to you,it usually takes 3-20 business days to return to your account. If you don’t receive your refund, please contact Ali customer service for more help. https://service.aliexpress.com/page/home?pageId=17&language=en . \nHope you can forgive us. If you are satisfied with our service please give a 5 star  on overall detail selling rating[Rose]\nIf you need any further help please feel free to contact us. Thank you. Have nice day！[Smile][摸摸]"
+    let text = "Dear customer, so sorry for the inconvenience caused. We always want  to be a perfect seller but some time it is out of our control.\nWe agreed your dispute and Ali has refunded to you,it usually takes 3-20 business days to return to your account. If you don’t receive your refund, please contact Ali customer service for more help. https://service.aliexpress.com/page/home?pageId=17&language=en . \nHope you can forgive us. If you are satisfied with our service please give a 5 star  on overall detail selling rating[Rose]\nIf you need any further help please feel free to contact us. Thank you. Have nice day！[Smile][Tongue]"
 
     console.log(text.match(/\[[A-Z]*[a-z]*\]/g));
     let icons = text.match((/\[[A-Z]*[a-z]*\]/g));
@@ -1219,7 +1220,12 @@ const Welcome: React.FC = () => {
     return (
         <PageContainer>
             <Card>
-                <div dangerouslySetInnerHTML={{ __html: text }}></div>
+                <Ribbon
+                    text="4.18.9"
+                    content={
+                        <div dangerouslySetInnerHTML={{ __html: text }}></div>
+                    }
+                />
                 <MyTable
                     requestApi={getInventoryView}
                     params={{ "language": "zh_cn" }}
